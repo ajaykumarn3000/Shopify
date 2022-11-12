@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Shopify | Cart{% endblock %}
+{% block content %}
+  {% if cart_data | length %}
+    <div class="cart-page">
+      <div class="cart-products">
+        {% for item in cart_data %}
+          <div class="cart-item" id="cart-item-0">
+            <div class="cart-item-img-div">
+              <img
+                class="cart-item-img"
+                src="{{ item['product'].image }}"
+                alt=""
+              />
+              <div class="cart-no-of-item">
+                <a href="{{ url_for('remove_one', product_id=item['product'].id, place='cart') }}"><i class="fa-solid fa-minus"></i></a>
+                <input type="number" value="{{ item['number'] }}" min="1" max="4">
+                <a href="{{ url_for('add_one', product_id=item['product'].id, place='cart') }}"><i class="fa-solid fa-plus"></i></a>
+              </div>
+            </div>
+            <div class="cart-item-details">
+              <div class="item-offer">
+                <img src="../static/assets/offer.png" alt="" />
+                <p>{{ (100 - (item['product'].discount_price * 100 / item['product'].price)) | int }}%<br />Off</p>
+              </div>
+              <div class="cart-first-row">
+                <a href="" class="cart-item-name">{{ item['product'].name }}</a>
+                <p>Delivery by {{ item['delivery_date'] }}</p>
+              </div>
+              <div class="cart-second-row">
+                <p class="cart-item-price">₹{{ (item['price'] | int) }}</p>
+                <p class="cart-item-dis-price">₹{{ item['discount_price'] | int }}</p>
+              </div>
+              <div class="cart-third-row">
+                <p class="cart-item-saving">You will save ₹{{ (item['price'] - item['discount_price']) | int }} on this product.</p>
+              </div>
+              <div class="cart-forth-row">
+                <a class="btn btn-outline-danger btn-sm cart-item-remove" href="{{ url_for('remove_from_cart', product_id=item['product'].id, place='cart') }}">REMOVE</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+
+        <div class="sticky-bottom place-order-pc-div">
+          <form action="{{ url_for('checkout', mode='cart', form='login') }}" method="post">
+            <button type="submit" class="place-order">PLACE ORDER</button>
+          </form>
+        </div>
+      </div>
+      <div class="cart-details">
+        <div class="cart-details-card">
+          <p class="price-details">PRICE DETAILS</p>
+          <hr>
+          <div class="dis-flex cart-deatils-price">
+            <p>Price ({{ cart_data|length }} items)</p>
+            <p>₹{{ total_data["total_price"] | int }}</p>
+          </div>
+          <div class="dis-flex cart-details-discount">
+            <p>Discount</p>
+            <p class="cart-details-green">-₹{{ (total_data["total_price"] - total_data["total_discount_price"])| int }}</p>
+          </div>
+          <div class="dis-flex cart-details-discount">
+            <p>Delivery Charges</p>
+            {% if not total_data["delivery_charges"] %}
+              <p class="cart-details-green">FREE</p>
+            {% else %}
+              <p class="cart-details">+₹{{ total_data["delivery_charges"] }}</p>
+            {% endif %}
+          </div>
+          <hr>
+          <div class="dis-flex cart-details-total">
+            <p>TOTAL AMOUNT</p>
+            <P>₹{{ total_data["total_discount_price"] | int }}</P>
+          </div>
+          <hr>
+          <div class="cart-details-you-save">
+            <p class="cart-details-green">You will save ₹{{ (total_data["total_price"] - total_data["total_discount_price"])| int }} on this order</p>
+          </div>
+        </div>
+      </div>
+      <div class="sticky-bottom place-order-div">
+        <div>
+          <h6 class="place-order-price">₹{{ total_data["total_price"] | int }}</h6>
+          <h6 class="place-order-discount-price">₹{{ total_data["total_discount_price"] | int }}</h6>
+        </div>
+        <form action="{{ url_for('checkout', mode='cart', login='form') }}" method="post">
+          <button type="submit" class="place-order">PLACE ORDER</button>
+        </form>
+      </div>
+    </div>
+  {% else %}
+    <div class="cart-page-empty">
+      <div>
+        <i class="fa-solid fa-cart-shopping"></i>
+        <h1>Cart is Empty</h1>
+      </div>
+
+    </div>
+  {% endif %}
+{% endblock %}

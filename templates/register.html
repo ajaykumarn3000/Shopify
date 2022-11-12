@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Shopify | Cart{% endblock %}
+{% block content %}
+    <!-- BODY -->
+
+    <div class="register-page">
+
+      <div>
+          <div class="register-container">
+        <h1>Sign up</h1>
+        <hr class="hr" />
+
+        {% if email_form %}
+        <!-- Email-form -->
+        <form class="register-email" action="{{ url_for('register') }}" method="post">
+<!--          <label for="email">Email:</label>-->
+<!--          <input type="email" name="email" id="email" autofocus />-->
+          {{ email_form.hidden_tag() }}
+          {{ wtf.form_field(email_form.email) }}
+          <hr style="visibility: hidden; margin: 0.3rem 0" />
+
+          <div class="form-submit">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+              Send OTP
+            </button>
+          </div>
+        </form>
+
+        {% elif otp_form %}
+        <!-- OTP form -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+
+         <p class="flash-message">{{ messages[0] }}</p>
+
+        {% endif %}
+        {% endwith %}
+        <form class="register-otp" action="{{ url_for('register') }}" method="post">
+            {{ otp_form.hidden_tag() }}
+          <label>OTP:</label>
+            {{ otp_form.otp1 }}
+            {{ otp_form.otp2 }}
+            {{ otp_form.otp3 }}
+            {{ otp_form.otp4 }}
+            {{ otp_form.otp5 }}
+            {{ otp_form.otp6 }}
+
+
+<!--          <input-->
+<!--            class="otp-field"-->
+<!--            id="otpfield-0"-->
+<!--            type="text"-->
+<!--            maxlength="1"-->
+<!--            autofocus-->
+<!--          />-->
+<!--          <input class="otp-field" id="otpfield-1" type="text" maxlength="1" />-->
+<!--          <input class="otp-field" id="otpfield-2" type="text" maxlength="1" />-->
+<!--          <input class="otp-field" id="otpfield-3" type="text" maxlength="1" />-->
+<!--          <input class="otp-field" id="otpfield-4" type="text" maxlength="1" />-->
+<!--          <input class="otp-field" id="otpfield-5" type="text" maxlength="1" />-->
+
+          <hr style="visibility: hidden; margin: 0.3rem 0" />
+
+          <div class="form-submit">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+              Verify
+            </button>
+          </div>
+          <script>
+            document.addEventListener("keydown", function (e) {
+              console.log(e.code);
+              if (e.code.includes("Digit")) {
+                const inputs = document.querySelectorAll(".register-otp input");
+                index = 0;
+                while (index < inputs.length) {
+                  const currentInput = inputs[index];
+                  console.log(currentInput);
+                  if (
+                    document.activeElement === currentInput &&
+                    currentInput.value.length
+                  ) {
+                    currentInput.nextElementSibling.focus();
+                    currentInput.nextElementSibling.value = "";
+                    break;
+                  }
+                  index++;
+                }
+              } else if (e.key === "Backspace") {
+                const inputs = document.querySelectorAll(".register-otp input");
+                index = 0;
+                while (index < inputs.length) {
+                  const currentInput = inputs[index];
+                  console.log(currentInput);
+                  if (
+                    document.activeElement === currentInput &&
+                    currentInput.value.length === 0
+                  ) {
+                    currentInput.nextElementSibling.value = "";
+                    currentInput.previousElementSibling.focus();
+                    break;
+                  }
+                  index++;
+                }
+              }
+            });
+          </script>
+        </form>
+
+        {% elif password_form %}
+        <!-- Password Form -->
+        <form class="register-email" action="{{ url_for('register') }}" method="post">
+            {{ password_form.hidden_tag() }}
+          <label for="name">Name:</label>
+            {{ password_form.name }}
+<!--          <input type="text" name="name" id="name" />-->
+          <hr style="visibility: hidden; margin: 0.3rem 0" />
+
+          <label for="password">Password:</label>
+          <div class="form-password">
+            {{ password_form.password }}
+            <i class="fa-regular fa-eye" onclick="eye()"></i>
+          </div>
+          <hr style="visibility: hidden; margin: 0.5rem 0" />
+
+          <div class="form-submit">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+              Sign up!
+            </button>
+          </div>
+          <script>
+            function eye() {
+              const eyeElement = document.querySelector(".form-password i");
+              const password = document.getElementById("password");
+              if (eyeElement.className.includes("fa-eye-slash")) {
+                eyeElement.classList.remove("fa-eye-slash");
+                eyeElement.classList.add("fa-eye");
+              } else {
+                eyeElement.classList.remove("fa-eye");
+                eyeElement.classList.add("fa-eye-slash");
+              }
+              const type =
+                password.getAttribute("type") === "password"
+                  ? "text"
+                  : "password";
+              password.setAttribute("type", type);
+
+              const form = document.querySelector("form");
+              form.addEventListener("submit", function (e) {
+                e.preventDefault();
+              });
+            }
+          </script>
+        </form>
+        {% endif %}
+
+
+      </div>
+          <h6 style="display: flex; justify-content: space-between; margin:10px 3px;">Already have an account? <a class="sign-up-a" href="{{ url_for('login') }}">Sign In</a></h6>
+      </div>
+    </div>
+{% endblock %}

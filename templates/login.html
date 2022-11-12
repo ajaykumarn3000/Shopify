@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Shopify | Login{% endblock %}
+{% block content %}
+    <!-- BODY -->
+
+    <div class="login-page">
+      <div>
+        <div class="login-container">
+        <h1>Sign in</h1>
+        <hr class="hr" />
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+
+         <p class="flash-message">{{ messages[0] }}</p>
+
+        {% endif %}
+        {% endwith %}
+        <form action="{{ url_for('login') }}" method="post">
+          {{ login_form.hidden_tag() }}
+          <label for="email">Email:</label>
+          {{ login_form.email }}
+          <hr style="visibility: hidden; margin: 0.3rem 0" />
+          <label for="password">Password:</label>
+          <div class="form-password">
+            {{ login_form.password }}
+            <i class="fa-regular fa-eye" onclick="eye()"></i>
+          </div>
+          <hr style="visibility: hidden; margin: 0.5rem 0" />
+          <div class="form-submit">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+              Log in
+            </button>
+          </div>
+        </form>
+      </div>
+        <h6 style="display: flex; justify-content: space-between; margin:10px 3px;">Don't have an account? <a class="sign-up-a" href="{{ url_for('register') }}">Sign Up</a></h6>
+      </div>
+
+      <script>
+        function eye() {
+          const eyeElement = document.querySelector(".form-password i");
+          const password = document.getElementById("password");
+          if (eyeElement.className.includes("fa-eye-slash")) {
+            eyeElement.classList.remove("fa-eye-slash");
+            eyeElement.classList.add("fa-eye");
+          } else {
+            eyeElement.classList.remove("fa-eye");
+            eyeElement.classList.add("fa-eye-slash");
+          }
+          const type =
+            password.getAttribute("type") === "password" ? "text" : "password";
+          password.setAttribute("type", type);
+
+          const form = document.querySelector("form");
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+          });
+        }
+      </script>
+    </div>
+{% endblock %}

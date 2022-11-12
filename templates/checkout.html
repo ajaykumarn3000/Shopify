@@ -1,0 +1,320 @@
+{% extends "base.html" %} {% block title %}Shopify | Checkout{% endblock %} {%
+block content %}
+
+{% if mode=="cart" and not current_user.cart | length %}
+  <div class="cart-page-empty">
+    <div>
+      <i class="fa-solid fa-cart-shopping"></i>
+      <h1>Cart is Empty</h1>
+    </div>
+  </div>
+{% else %}
+  <div class="checkout-page">
+    <div class="checkout-details">
+      <div class="checkout-details-container checkout-details-login">
+        {% if form == "login" %}
+        <div class="checkout-details-header header-active">
+          <div class="checkout-details-serial"><p>1</p></div>
+          <p class="checkout-details-title">LOGIN</p>
+        </div>
+
+        <div class="checkout-details-body">
+          <form action="{{ url_for('login_checkout', mode=mode) }}" method="post">
+            <div>
+              <span class="checkout-login-sub">Name</span
+              ><span class="checkout-login-data">Ajaykumar</span>
+            </div>
+            <div>
+              <span class="checkout-login-sub">Phone</span>
+
+              {% if current_user.phone %}
+                <span class="checkout-login-data">+919372598749</span>
+              {% else %}
+                <span><input type="text" name="phone" autofocus required></span>
+              {% endif %}
+
+            </div>
+            <a class="checkout-login-logout" href="{{ url_for('logout_n_login') }}">
+              Logout & Sign in to another account
+            </a>
+            <button class="checkout-continue" type="submit">
+              CONTINUE CHECKOUT
+            </button>
+            <span class="checkout-logout-note"
+              >Please note that upon clicking "Logout" you will lose all items in
+              cart and will be redirected to Flipkart home page.</span
+            >
+          </form>
+        </div>
+        {% else %}
+        <div class="checkout-details-header header-active">
+          <div class="checkout-details-serial"><p>1</p></div>
+          <div>
+            <p class="checkout-details-title">LOGIN</p>
+          </div>
+
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="checkout-details-container checkout-details-delivery">
+        {% if form == "address" %}
+        <div class="checkout-details-header header-active">
+          <div class="checkout-details-serial"><p>2</p></div>
+          <p class="checkout-details-title">DELIVERY ADDRESS</p>
+        </div>
+
+        <div class="checkout-details-body">
+          <form action="{{ url_for('address_checkout', mode=mode) }}" method="post">
+            <div class="checkout-delivery-inputs row1">
+              <span>
+                <label for="name">Name</label>
+                <input name="name" type="text" value="{{ current_user.address['name'] }}" required/>
+              </span>
+              <span>
+                <label for="phone">10-digit Mobile Number</label>
+                <input name="phone" type="text" value="{{ current_user.address['phone'] }}" required/>
+              </span>
+            </div>
+            <div class="checkout-delivery-inputs row2">
+              <span>
+                <label for="pincode">Pincode</label>
+                <input name="pincode" type="text" value="{{ current_user.address['pincode'] }}" required/>
+              </span>
+              <span>
+                <label for="locality">Locality</label>
+                <input name="locality" type="text" value="{{ current_user.address['locality'] }}" required/>
+              </span>
+            </div>
+            <div class="checkout-delivery-inputs row2">
+              <span>
+                <label for="address">Address (Area & Street)</label>
+                <textarea name="address" cols="10" rows="4" required>{{ current_user.address['address'] }}</textarea>
+              </span>
+            </div>
+            <div class="checkout-delivery-inputs row2">
+              <span>
+                <label for="city">City/District/Town</label>
+                <input name="city" type="text" value="{{ current_user.address['city'] }}" required/>
+              </span>
+              <span>
+                <label for="state">State</label>
+                <select name="state" id="state-select" required>
+                  <option value="" disabled="">--Select State--</option>
+                  <option value="Andaman &amp; Nicobar Islands">Andaman &amp; Nicobar Islands</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                  <option value="Assam">Assam</option>
+                  <option value="Bihar">Bihar</option>
+                  <option value="Chandigarh">Chandigarh</option>
+                  <option value="Chhattisgarh">Chhattisgarh</option>
+                  <option value="Dadra &amp; Nagar Haveli &amp; Daman &amp; Diu">Dadra &amp; Nagar Haveli &amp; Daman &amp; Diu</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Goa">Goa</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Haryana">Haryana</option>
+                  <option value="Himachal Pradesh">Himachal Pradesh</option>
+                  <option value="Jammu &amp; Kashmir">Jammu &amp; Kashmir</option>
+                  <option value="Jharkhand">Jharkhand</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Kerala">Kerala</option>
+                  <option value="Ladakh">Ladakh</option>
+                  <option value="Lakshadweep">Lakshadweep</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh</option>
+                  <option value="Maharashtra" selected>Maharashtra</option>
+                  <option value="Manipur">Manipur</option>
+                  <option value="Meghalaya">Meghalaya</option>
+                  <option value="Mizoram">Mizoram</option>
+                  <option value="Nagaland">Nagaland</option>
+                  <option value="Odisha">Odisha</option>
+                  <option value="Puducherry">Puducherry</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Rajasthan">Rajasthan</option>
+                  <option value="Sikkim">Sikkim</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Telangana">Telangana</option>
+                  <option value="Tripura">Tripura</option>
+                  <option value="Uttarakhand">Uttarakhand</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="West Bengal">West Bengal</option>
+                </select>
+              </span>
+            </div>
+            <div class="checkout-delivery-inputs row1">
+              <span>
+                <label for="landmark">Landmark (Optional)</label>
+                <input name="landmark" type="text" value="{{ current_user.address['landmark'] }}"/>
+              </span>
+              <span>
+                <label for="alt-phone">Alternate Phone (Optional)</label>
+                <input name="alt-phone" type="text" value="{{ current_user.address['alt-phone'] }}" />
+              </span>
+            </div>
+            <button class="checkout-continue" type="submit">
+              SAVE AND DELIVER HERE
+            </button>
+          </form>
+        </div>
+        {% elif form == "product" %}
+        <div class="checkout-details-header header-active">
+          <div class="checkout-details-serial"><p>2</p></div>
+          <p class="checkout-details-title">DELIVERY ADDRESS</p>
+        </div>
+        {% else %}
+        <div class="checkout-details-header">
+          <div class="checkout-details-serial"><p>2</p></div>
+          <p class="checkout-details-title">DELIVERY ADDRESS</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="checkout-details-container checkout-details-products">
+        {% if form == "product" %}
+        <div class="checkout-details-header header-active">
+          <div class="checkout-details-serial"><p>3</p></div>
+          <p class="checkout-details-title">ORDER SUMMARY</p>
+        </div>
+
+        <div class="checkout-details-body">
+          <div class="checkout-products-container">
+
+            {% for item in cart_data %}
+              <div class="checkout-product">
+                <div>
+                  <div class="checkout-product-div-img">
+                    <img
+                      class="checkout-product-img"
+                      src="{{ item['product'].image }}"
+                      alt=""
+                    />
+
+                  </div>
+
+                </div>
+
+                <div class="checkout-product-detail">
+                  <h1>{{ item['product'].name }} <br>x {{ item['number'] }}</h1>
+                  <div>
+                    <p class="checkout-product-price">₹{{ (item['price'] | int) }}</p>
+                    <p class="checkout-product-dis-price">₹{{ item['discount_price'] | int }}</p>
+                    <p class="checkout-product-offer">{{ (100 - (item['product'].discount_price * 100 / item['product'].price)) | int }}% Off</p>
+                  </div>
+                  <h6>+ ₹29 Secured Packaging Fee</h6>
+                </div>
+                <div class="checkout-product-delivery">
+                  {% if not total_data["delivery_charges"] %}
+                    <p>Delivery by {{ item['delivery_date'] }} | Free</p>
+                  {% else %}
+                    <p>Delivery by {{ item['delivery_date'] }} | +₹{{ total_data["delivery_charges"] }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="checkout-summary checkout-summary-inproduct">
+            <div class="checkout-summary-container">
+              <div class="cart-details-card">
+                <p class="price-details">PRICE DETAILS</p>
+                <hr>
+                <div class="dis-flex cart-deatils-price">
+                  <p>Price ({{ cart_data|length }} items)</p>
+                  <p>₹{{ total_data["total_price"] | int }}</p>
+                </div>
+                <div class="dis-flex cart-details-discount">
+                  <p>Discount</p>
+                  <p class="cart-details-green">-₹{{ (total_data["total_price"] - total_data["total_discount_price"])| int }}</p>
+                </div>
+                <div class="dis-flex cart-details-discount">
+                  <p>Delivery Charges</p>
+                  {% if not total_data["delivery_charges"] %}
+                    <p class="cart-details-green">FREE</p>
+                  {% else %}
+                    <p class="cart-details">+₹{{ total_data["delivery_charges"] }}</p>
+                  {% endif %}
+                </div>
+                <div class="dis-flex cart-details-packaging">
+                  <p>Packaging Fee</p>
+                  <p>₹{{ total_data["packaging_charges"] | int}}</p>
+                </div>
+                <hr>
+                <div class="dis-flex cart-details-total">
+                  <p>TOTAL AMOUNT</p>
+                  <P>₹{{ (total_data["total_discount_price"] + total_data["packaging_charges"]) | int }}</P>
+                </div>
+                <hr>
+                <div class="cart-details-you-save">
+                  <p class="cart-details-green">You will save ₹{{ (total_data["total_price"] - total_data["total_discount_price"] - total_data["packaging_charges"])| int }} on this order</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <form action="{{ url_for('create_checkout_session', mode=mode) }}" method="post">
+            <button class="checkout-continue" type="submit">
+              PROCEED TO PAYMENTS
+            </button>
+          </form>
+        </div>
+        {% else %}
+        <div class="checkout-details-header">
+          <div class="checkout-details-serial"><p>3</p></div>
+          <p class="checkout-details-title">ORDER SUMMARY</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="checkout-details-container checkout-details-payment">
+        <div class="checkout-details-header">
+          <div class="checkout-details-serial"><p>4</p></div>
+          <p class="checkout-details-title">PAYMENT OPTIONS</p>
+        </div>
+
+        <!-- <div class="checkout-details-body">
+          <div><span class="checkout-login-sub">Name</span><span class="checkout-login-data">Ajaykumar</span></div>
+          <div><span class="checkout-login-sub">Phone</span><span class="checkout-login-data">+919372598749</span></div>
+          <a class="checkout-login-logout" href="#">Logout & Sign in to another account</a>
+          <form action="" method="post"><button class="checkout-continue" type="submit">CONTINUE CHECKOUT</button></form>
+          <span class="checkout-logout-note">Please note that upon clicking "Logout" you will lose all items in cart and will be redirected to Flipkart home page.</span>
+        </div> -->
+      </div>
+    </div>
+    <div class="checkout-summary checkout-summary-bottom">
+      <div class="checkout-summary-container">
+        <div class="cart-details-card">
+            <p class="price-details">PRICE DETAILS</p>
+            <hr>
+            <div class="dis-flex cart-deatils-price">
+              <p>Price ({{ cart_data|length }} items)</p>
+              <p>₹{{ total_data["total_price"] | int }}</p>
+            </div>
+            <div class="dis-flex cart-details-discount">
+              <p>Discount</p>
+              <p class="cart-details-green">-₹{{ (total_data["total_price"] - total_data["total_discount_price"])| int }}</p>
+            </div>
+            <div class="dis-flex cart-details-discount">
+              <p>Delivery Charges</p>
+              {% if not total_data["delivery_charges"] %}
+                <p class="cart-details-green">FREE</p>
+              {% else %}
+                <p class="cart-details">+₹{{ total_data["delivery_charges"] }}</p>
+              {% endif %}
+            </div>
+            <div class="dis-flex cart-details-packaging">
+              <p>Packaging Fee</p>
+              <p>₹{{ total_data["packaging_charges"] | int}}</p>
+            </div>
+            <hr>
+            <div class="dis-flex cart-details-total">
+              <p>TOTAL AMOUNT</p>
+              <P>₹{{ (total_data["total_discount_price"] + total_data["packaging_charges"]) | int }}</P>
+            </div>
+            <hr>
+            <div class="cart-details-you-save">
+              <p class="cart-details-green">You will save ₹{{ (total_data["total_price"] - total_data["total_discount_price"] - total_data["packaging_charges"])| int }} on this order</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

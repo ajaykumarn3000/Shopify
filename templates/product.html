@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% block title %}Shopify | Product{% endblock %}
+{% block content %}
+<!-- BODY -->
+
+    <div class="product-page">
+      <div class="product-image">
+        <div class="content-holder">
+          <img
+            src="{{ product.image }}"
+            alt="iphone14-pro-max-img"
+          />
+          <div class="cart-buy-buttons">
+            <form action="{{ url_for('add_to_cart', product_id=product.id ) }}" method="post">
+              <button id="add-cart"><i class="fa-solid fa-cart-shopping"></i>&nbsp;Add to Cart</button>
+            </form>
+            <!-- <a href="{{ url_for('add_to_cart', product_id=product.id ) }}">
+              <button id="add-cart"><i class="fa-solid fa-cart-shopping"></i>&nbsp;Add to Cart</button>
+            </a> -->
+            <form action="{{ url_for('checkout', mode=product.id, form='login') }}" method="post">
+              <button id="buy-now"><i class="fa-solid fa-bolt-lightning"></i>&nbsp;Buy</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="product-description">
+        <div class="product-description-holder">
+          <h1 class="product-title">{{ product.name }}</h1>
+          <div class="product-price-div">
+            <p class="product-discount-price">₹{{ product.discount_price | int }}</p>
+            <p class="product-price">₹{{ product.price | int }}</p>
+            <p class="product-discount">{{ (100 - (product.discount_price * 100 / product.price)) | int }}% Off</p>
+          </div>
+
+          {% if not product.delivery %}
+            <p class="product-delivery free">+FREE Delivery</p>
+          {% else %}
+            <p class="product-delivery free">+₹{{ product.delivery | int }} Delivery</p>
+          {% endif %}
+
+          <div class="product-details">
+            <div class="row">
+              <div class="col-lg-2 col-sm-3 col-4">
+                <p>Warranty</p>
+              </div>
+              <div class="col-lg-10 col-sm-9 col-8">
+                <p>{{ product.warranty }}</p>
+              </div>
+            </div>
+
+            {% if product.highlight %}
+              <div class="row">
+                <div class="col-lg-2 col-sm-3 col-4">
+                  <p>Highlights</p>
+                </div>
+                <div class="col-lg-10 col-sm-9 col-8">
+                  <ul>
+                    {% for hlight in product.highlight %}
+                      <li>{{ hlight }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            {% endif %}
+
+            {% if product.description %}
+              <div class="row">
+                <div class="col-lg-2 col-sm-3 col-4">
+                  <p>Description</p>
+                </div>
+                <div class="col-lg-10 col-sm-9 col-8">
+                  <p>
+                    {{ product.description }}
+                  </p>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+
+          {% if product.specifications %}
+            <div class="product-specifications">
+              <h4>Specifications</h4>
+
+              {% for category in product.specifications %}
+                <div class="product-specifications-details" id="general">
+                  <div class="row">
+                    <h6>{{ category }}</h6>
+                  </div>
+
+                  {% for class in product.specifications[category] %}
+                    <div class="row">
+                      <div class="col-lg-3 col-4">
+                        <p>{{ class }}</p>
+                      </div>
+                      <div class="col-lg-9 col-8">
+                        <p>{{ product.specifications[category][class] }}</p>
+                      </div>
+                    </div>
+                  {% endfor %}
+<!--                  <div class="row">-->
+<!--                    <div class="col-lg-3 col-4">-->
+<!--                      <p>Model Number</p>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-9 col-8">-->
+<!--                      <p>MLPF3HN/A</p>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="row">-->
+<!--                    <div class="col-lg-3 col-4">-->
+<!--                      <p>Model Name</p>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-9 col-8">-->
+<!--                      <p>iPhone 13</p>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="row">-->
+<!--                    <div class="col-lg-3 col-4">-->
+<!--                      <p>Color</p>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-9 col-8">-->
+<!--                      <p>Midnight</p>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="row">-->
+<!--                    <div class="col-lg-3 col-4">-->
+<!--                      <p>Browse Type</p>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-9 col-8">-->
+<!--                      <p>Smartphones</p>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="row">-->
+<!--                    <div class="col-lg-3 col-4">-->
+<!--                      <p>SIM Type</p>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-9 col-8">-->
+<!--                      <p>Dual Sim</p>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="row">-->
+<!--                    <div class="col-lg-3 col-4">-->
+<!--                      <p>Hybrid Sim Slot</p>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-9 col-8">-->
+<!--                      <p>No</p>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="row">-->
+<!--                    <div class="col-lg-3 col-4">-->
+<!--                      <p>Touchscreen</p>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-9 col-8">-->
+<!--                      <p>Yes</p>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="row">-->
+<!--                    <div class="col-lg-3 col-4">-->
+<!--                      <p>OTG Compatible</p>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-9 col-8">-->
+<!--                      <p>No</p>-->
+<!--                    </div>-->
+<!--                  </div>-->
+                </div>
+              {% endfor %}
+
+
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+      <div class="cart-buy-buttons-bottom sticky-bottom">
+        <form action="{{ url_for('add_to_cart', product_id=product.id ) }}" method="post">
+          <button id="add-cart"><i class="fa-solid fa-cart-shopping"></i>&nbsp;Add to Cart</button>
+        </form>
+        <form action="" method="post">
+          <button id="buy-now"><i class="fa-solid fa-bolt-lightning"></i>&nbsp;Buy</button>
+        </form>
+      </div>
+    </div>
+{% endblock %}
