@@ -28,6 +28,8 @@ app.config['MAIL_USERNAME'] = EMAIL_ID = "ajaykumar.shopify.mails@gmail.com"
 app.config['MAIL_PASSWORD'] = os.environ.get('password')
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
+app.config["testing"] = False
+app.config["MAIL_SUPPRESS_SEND"] = False
 mail = Mail(app)
 
 db = SQLAlchemy(app)
