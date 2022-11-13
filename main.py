@@ -24,12 +24,12 @@ app.config['SECRET_KEY'] = "random string"
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = EMAIL_ID = "ajaykumar.shopify.mails@gmail.com"
-app.config['MAIL_PASSWORD'] = os.environ.get('password')
-app.config["testing"] = False
-app.config["MAIL_SUPPRESS_SEND"] = False
+app.config['MAIL_USERNAME'] = EMAIL_ID = os.environ.get("EMAIL")
+app.config['MAIL_PASSWORD'] = os.environ.get('PASSWORD')
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
-
+print(os.environ.get(os.environ.get("EMAIL")), os.environ.get("PASSWORD"))
 db = SQLAlchemy(app)
 Bootstrap(app)
 
