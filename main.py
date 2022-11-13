@@ -144,7 +144,6 @@ def register():
             return redirect(url_for('login'))
 
         send_otp()
-        print(email, otp)
         return render_template("register.html", otp_form=otp_form)
     elif otp_form.validate_on_submit():
         user_otp = ""
@@ -154,7 +153,7 @@ def register():
         user_otp += otp_form.otp4.data
         user_otp += otp_form.otp5.data
         user_otp += otp_form.otp6.data
-        print(user_otp, otp)
+
 
         if user_otp == otp:
             return render_template("register.html", password_form=password_form)
@@ -203,7 +202,7 @@ def login():
 @app.route('/', methods=['GET'])
 def home():
     all_products = Product.query.all()
-    print(all_products)
+
     return render_template("index.html", current_user=current_user, products=all_products)
 
 
@@ -240,15 +239,12 @@ def cart():
         "total_discount_price": total_discount_price,
         "delivery_charges": 0
     }
-    print(cart_data)
-    print(total_data)
     return render_template("cart.html", cart_data=cart_data, total_data=total_data)
 
 
 @app.route('/add-to-cart/<product_id>', methods=['POST'])
 @login_required
 def add_to_cart(product_id):
-    print(type(product_id))
     user_cart = {}
     for key in current_user.cart:
         user_cart[key] = current_user.cart[key]
@@ -366,7 +362,6 @@ def checkout(mode):
 def login_checkout(mode):
     try:
         phone = request.form["phone"]
-        print(phone)
         current_user.phone = int(request.form["phone"])
         db.session.commit()
         return redirect(url_for('checkout', form="address", mode=mode))
@@ -378,10 +373,8 @@ def login_checkout(mode):
 @app.route("/address-checkout/<mode>", methods=['POST'])
 def address_checkout(mode):
     try:
-        print(request.form)
         address_dict = {}
         for key in request.form:
-            print(key, request.form[key])
             address_dict[key] = request.form[key]
         current_user.address = address_dict
         db.session.commit()
