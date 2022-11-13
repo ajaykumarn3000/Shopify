@@ -174,7 +174,7 @@
         <form action="{{ url_for('add_to_cart', product_id=product.id ) }}" method="post">
           <button id="add-cart"><i class="fa-solid fa-cart-shopping"></i>&nbsp;Add to Cart</button>
         </form>
-        <form action="" method="post">
+        <form action="{{ url_for('checkout', mode=product.id, form='login') }}" method="post">
           <button id="buy-now"><i class="fa-solid fa-bolt-lightning"></i>&nbsp;Buy</button>
         </form>
       </div>
