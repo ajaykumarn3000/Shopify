@@ -68,7 +68,8 @@
             </button>
           </div>
           <script>
-            document.addEventListener("keyup", function (e) {
+            document.addEventListener("keydown", function (e) {
+              document.querySelector("h1").innerText = e.code
               console.log(e.code);
               if (e.code.includes("Digit")) {
                 const inputs = document.querySelectorAll(".register-otp input");
