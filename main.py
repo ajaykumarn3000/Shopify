@@ -145,13 +145,14 @@ def register():
         send_otp()
         return render_template("register.html", otp_form=otp_form)
     elif otp_form.validate_on_submit():
-        user_otp = ""
-        user_otp += otp_form.otp1.data
-        user_otp += otp_form.otp2.data
-        user_otp += otp_form.otp3.data
-        user_otp += otp_form.otp4.data
-        user_otp += otp_form.otp5.data
-        user_otp += otp_form.otp6.data
+        user_otp = otp_form.otp.data
+        # user_otp = ""
+        # user_otp += otp_form.otp1.data
+        # user_otp += otp_form.otp2.data
+        # user_otp += otp_form.otp3.data
+        # user_otp += otp_form.otp4.data
+        # user_otp += otp_form.otp5.data
+        # user_otp += otp_form.otp6.data
 
 
         if user_otp == otp:

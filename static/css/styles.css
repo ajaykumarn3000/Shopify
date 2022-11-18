@@ -915,13 +915,14 @@ button.place-order {
   display: block;
 }
 .register-otp input {
+  letter-spacing: 7px;
   background-color: rgb(208, 208, 208);
   color: rgb(0, 0, 0);
   border: 2px solid black;
   border-radius: 6px;
   text-align: center;
   font-size: 1.5rem;
-  width: 40px;
+  width: 220px;
   font-weight: 700;
 }
 

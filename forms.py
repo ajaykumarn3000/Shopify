@@ -8,12 +8,13 @@ class RegisterFormEmail(FlaskForm):
 
 
 class RegisterFormOTP(FlaskForm):
-    otp1 = StringField(validators=[DataRequired()])
-    otp2 = StringField(validators=[DataRequired()])
-    otp3 = StringField(validators=[DataRequired()])
-    otp4 = StringField(validators=[DataRequired()])
-    otp5 = StringField(validators=[DataRequired()])
-    otp6 = StringField(validators=[DataRequired()])
+    # otp1 = StringField(validators=[DataRequired()])
+    # otp2 = StringField(validators=[DataRequired()])
+    # otp3 = StringField(validators=[DataRequired()])
+    # otp4 = StringField(validators=[DataRequired()])
+    # otp5 = StringField(validators=[DataRequired()])
+    # otp6 = StringField(validators=[DataRequired()])
+    otp = StringField(validators=[DataRequired()])
 
 
 class RegisterFormPassword(FlaskForm):
