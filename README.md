@@ -1,4 +1,4 @@
-# Online Shop
+# Shopify - an online shop
 
 This project is a web-based online shop application built with Flask, a micro web framework written in Python. It allows users to browse products, add them to a cart, and proceed to checkout.
 
