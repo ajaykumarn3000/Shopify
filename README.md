@@ -23,7 +23,7 @@ Before you begin, ensure you have met the following requirements:
 ### Installation
 
 1. Clone the repository to your local machine:
-   ```sh
+  ```sh
    git clone https://github.com/your-username/online-shop.git
    ```
 
