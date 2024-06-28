@@ -2,6 +2,8 @@
 
 This project is a web-based online shop application built with Flask, a micro web framework written in Python. It allows users to browse products, add them to a cart, and proceed to checkout.
 
+<img alt="shopify_grzsxa" src="https://github.com/ajaykumarn3000/Shopify/assets/104309385/59ee9a31-600a-4cca-9410-762d0563887c">
+
 ## Features
 
 - Product listing
